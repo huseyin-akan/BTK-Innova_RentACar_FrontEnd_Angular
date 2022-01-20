@@ -23,6 +23,9 @@ import { NavComponent } from './components/nav/nav.component';
 import { RentcarComponent } from './components/rentcar/rentcar.component';
 import { HomeComponent } from './components/home/home.component';
 import {CalendarModule} from 'primeng/calendar';
+import { AddCarComponent } from './components/admin/add-car/add-car.component';
+import { AddColorComponent } from './components/admin/add-color/add-color.component';
+import { AddBrandComponent } from './components/admin/add-brand/add-brand.component';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import {CalendarModule} from 'primeng/calendar';
     CardetailComponent,
     NavComponent,
     RentcarComponent,
-    HomeComponent
+    HomeComponent,
+    AddCarComponent,
+    AddColorComponent,
+    AddBrandComponent
   ],
   imports: [
     BrowserModule,

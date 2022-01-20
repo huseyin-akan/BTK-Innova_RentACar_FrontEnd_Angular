@@ -13,7 +13,10 @@ export class CardetailComponent implements OnInit {
 
   car :CarListModel;
   id : number;
-  constructor(private carService : CarService, private activatedRoute : ActivatedRoute) { }
+  constructor(
+    private carService : CarService, 
+    private activatedRoute : ActivatedRoute    
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(
@@ -26,8 +29,13 @@ export class CardetailComponent implements OnInit {
   getCar(id:number){
     this.carService.getCarById(id).subscribe(
       response => {
-        this.car = response.data;   
-        console.log(response.data) ;    
+        this.car = response.data;     
+      },
+      error =>{
+
+      },
+      () =>{
+
       }
     )
   }

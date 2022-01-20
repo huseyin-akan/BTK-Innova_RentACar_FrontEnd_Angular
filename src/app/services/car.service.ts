@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ListResponseModel } from './../models/response/listResponseModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BrandListModel } from '../models/brandListModel';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

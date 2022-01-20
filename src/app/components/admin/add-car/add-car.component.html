@@ -1,0 +1,41 @@
+
+<!-- <form [formGroup]="addCarForm" (ngSubmit)="addCar()" class="form-group"> 
+    
+    <div class="mb-3">
+        <input type="text" placeholder="Konu başlığı giriniz" formControlName="subject" class="form-control" id="subject" name="subject"/>
+        <div *ngIf="addCarForm.get('subject').errors?.maxlength" class="alert alert-danger">
+            Konu en fazla 50 karakter olmalıdır.
+        </div>       
+
+    </div>
+
+    <div class="mb-3">
+        <input type="text" placeholder="Mail adresinizi giriniz" formControlName="mailAddress" class="form-control" id="mail" name="mail"/>
+        <div *ngIf="addCarForm.get('mailAddress').hasError('email')" class="alert alert-danger">
+            Lütfen geçerli bir mail adresi giriniz.
+        </div>
+        <div *ngIf="addCarForm.get('mailAddress').errors?.required && (addCarForm.get('mailAddress').dirty || addCarForm.get('mailAddress').touched) " class="alert alert-danger">
+            Mail kısmı zorunludur.
+        </div>
+    </div>    
+
+    <div class="mb-3">
+        <input type="text" placeholder="Ad soyadınızı giriniz" formControlName="nameSurname" class="form-control" id="nameSurname" name="nameSurname" />
+        <div *ngIf="addCarForm.get('nameSurname').errors?.maxlength" class="alert alert-danger">
+            Ad soyad en fazla 30 karakter olmalıdır.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input type="text" placeholder="Mesaj içeriğini giriniz" formControlName="messageText" class="form-control" id="messageText" name="messageText"/>
+        <div *ngIf="addCarForm.get('messageText').hasError('maxlength')" class="alert alert-danger">
+            Yazdığınız mesaj en fazla 1000 karakter olabilir.
+        </div>
+        <div *ngIf="rentalForm.get('messageText').errors?.required && (rentalForm.get('messageText').dirty || rentalForm.get('messageText').touched) " class="alert alert-danger">
+            Mesaj kısmı zorunludur.
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="rentalForm.invalid"> Mesajı Gönder</button>
+
+</form>  -->

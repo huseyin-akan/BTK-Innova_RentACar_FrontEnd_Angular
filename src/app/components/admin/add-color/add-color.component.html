@@ -1,0 +1,17 @@
+<p>add-color works!</p>
+
+<form [formGroup]="addColorForm" (ngSubmit)="addColor()" class="form-group"> 
+    
+    <div class="mb-3">
+        <input type="text" placeholder="Renk adını giriniz" formControlName="name" class="form-control" id="name" name="name"/>
+        <div *ngIf="addColorForm.get('name').hasError('maxlength')" class="alert alert-danger">
+            Yazdığınız mesaj en fazla 20 karakter olabilir.
+        </div>
+        <div *ngIf="addColorForm.get('messageText').errors?.required && (addColorForm.get('messageText').dirty || addColorForm.get('messageText').touched) " class="alert alert-danger">
+            Renk adı kısmı zorunludur.
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="addColorForm.invalid"> Renki Kaydet</button>
+
+</form> 
