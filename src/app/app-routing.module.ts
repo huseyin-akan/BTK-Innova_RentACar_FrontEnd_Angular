@@ -1,3 +1,4 @@
+import { AddCarComponent } from './components/admin/add-car/add-car.component';
 import { AddColorComponent } from './components/admin/add-color/add-color.component';
 import { HomeComponent } from './components/home/home.component';
 import { RentcarComponent } from './components/rentcar/rentcar.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: "home", component : HomeComponent},
   {path: "admin/addcolor", component : AddColorComponent},
   {path: "admin/addbrand", component : AddBrandComponent},
+  {path: "admin/addcar", component : AddCarComponent},
 ];
 
 

@@ -1,41 +1,55 @@
+<form *ngIf="dataLoaded" [formGroup]="addCarForm" (ngSubmit)="addCar()" class="form-group">
 
-<!-- <form [formGroup]="addCarForm" (ngSubmit)="addCar()" class="form-group"> 
-    
     <div class="mb-3">
-        <input type="text" placeholder="Konu başlığı giriniz" formControlName="subject" class="form-control" id="subject" name="subject"/>
-        <div *ngIf="addCarForm.get('subject').errors?.maxlength" class="alert alert-danger">
-            Konu en fazla 50 karakter olmalıdır.
-        </div>       
-
+        <input type="text" placeholder="Araç günlük fiyatını giriniz" formControlName="dailyPrice" class="form-control"
+            id="dailyPrice" name="dailyPrice" />
     </div>
 
     <div class="mb-3">
-        <input type="text" placeholder="Mail adresinizi giriniz" formControlName="mailAddress" class="form-control" id="mail" name="mail"/>
-        <div *ngIf="addCarForm.get('mailAddress').hasError('email')" class="alert alert-danger">
-            Lütfen geçerli bir mail adresi giriniz.
-        </div>
-        <div *ngIf="addCarForm.get('mailAddress').errors?.required && (addCarForm.get('mailAddress').dirty || addCarForm.get('mailAddress').touched) " class="alert alert-danger">
-            Mail kısmı zorunludur.
-        </div>
-    </div>    
-
-    <div class="mb-3">
-        <input type="text" placeholder="Ad soyadınızı giriniz" formControlName="nameSurname" class="form-control" id="nameSurname" name="nameSurname" />
-        <div *ngIf="addCarForm.get('nameSurname').errors?.maxlength" class="alert alert-danger">
-            Ad soyad en fazla 30 karakter olmalıdır.
-        </div>
+        <input type="text" placeholder="Araç model yılını giriniz." formControlName="modelYear" class="form-control"
+            id="modelYear" name="modelYear" />
     </div>
 
     <div class="mb-3">
-        <input type="text" placeholder="Mesaj içeriğini giriniz" formControlName="messageText" class="form-control" id="messageText" name="messageText"/>
-        <div *ngIf="addCarForm.get('messageText').hasError('maxlength')" class="alert alert-danger">
-            Yazdığınız mesaj en fazla 1000 karakter olabilir.
-        </div>
-        <div *ngIf="rentalForm.get('messageText').errors?.required && (rentalForm.get('messageText').dirty || rentalForm.get('messageText').touched) " class="alert alert-danger">
-            Mesaj kısmı zorunludur.
-        </div>
+        <input type="text" placeholder="Araç tanımını giriniz." formControlName="description" class="form-control"
+            id="description" name="description" />
     </div>
 
-    <button type="submit" class="btn btn-success" [disabled]="rentalForm.invalid"> Mesajı Gönder</button>
+    <div class="mb-3">
+        <input type="text" placeholder="Araç kilometresini giriniz." formControlName="kilometer" class="form-control"
+            id="kilometer" name="kilometer" />
+    </div>
 
-</form>  -->
+    <div class="mb-3">
+        <input type="text" placeholder="Araç kiralamak için gerekli minimum findex score" formControlName="findexScore"
+            class="form-control" id="findexScore" name="findexScore" />
+    </div>
+
+    <div class="mb-3">
+        <input type="text" placeholder="Araç kiralamak için gerekli minimum yaş" formControlName="minAge"
+            class="form-control" id="minAge" name="minAge" />
+    </div>
+
+    <label for="brands">Brand</label>
+    <select formControlName="brandId" id="brandId">
+        <option *ngFor="let brand of brands; let i = index" [value]="brands[i].id">
+            {{brands[i].name}}
+        </option>
+    </select>
+
+    <label for="colors">Color</label>
+    <select formControlName="colorId" id="colorId">
+        <option *ngFor="let color of colors; let i = index" [value]="colors[i].id">
+            {{colors[i].name}}
+        </option>
+    </select>
+
+    <label for="carClasses">Car Class</label>
+    <select formControlName="carClassId" id="carClassId">
+        <option *ngFor="let carClass of carClasses; let i = index" [value]="carClasses[i].id">
+            {{carClasses[i].classType}}
+        </option>
+    </select>
+
+    <button type="submit" class="btn btn-success" [disabled]="addCarForm.invalid"> Aracı ekle</button>
+</form>
