@@ -1,52 +1,234 @@
-<p>rentcar works!</p>
-
-<form [formGroup]="rentalForm" (ngSubmit)="rentCar()" class="form-group">
-
-    <div class="p-field p-col-12 p-md-4">
-        <label for="icon">Kiralama Tarihi</label>
-        <p-calendar [(ngModel)]="rentDate" [showIcon]="true" inputId="icon"></p-calendar>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-renting-tab" data-bs-toggle="tab" data-bs-target="#nav-renting"
+            type="button" role="tab" aria-controls="nav-renting" aria-selected="true">Kiralama</button>
+        <button class="nav-link" id="nav-car-tab" data-bs-toggle="tab" data-bs-target="#nav-car" type="button"
+            role="tab" aria-controls="nav-car" aria-selected="false">Araç Seç</button>
+        <button class="nav-link" id="nav-customer-tab" data-bs-toggle="tab" data-bs-target="#nav-customer" type="button"
+            role="tab" aria-controls="nav-customer" aria-selected="false">Müşteri Kayıt</button>
+        <button class="nav-link" id="nav-extras-tab" data-bs-toggle="tab" data-bs-target="#nav-extras" type="button"
+            role="tab" aria-controls="nav-extras" aria-selected="false">Ekstralar</button>
+        <button class="nav-link" id="nav-payment-tab" data-bs-toggle="tab" data-bs-target="#nav-payment" type="button"
+            role="tab" aria-controls="nav-payment" aria-selected="false">Ödeme</button>
     </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <!-- Renting Tab-->
+    <div class="tab-pane fade show active" id="nav-renting" role="tabpanel" aria-labelledby="nav-renting-tab">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="rentalForm" (ngSubmit)="rentCar()" class="form-group">
 
-    <div class="p-field p-col-12 p-md-4">
-        <label for="icon">Teslim Tarihi</label>
-        <p-calendar formControlName="date" [showIcon]="true" inputId="icon"></p-calendar>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="p-field p-col-12 p-md-4">
+                                <label for="icon">Kiralama Tarihi</label>
+                                <br>
+                                <p-calendar formControlName="rentDate" [showIcon]="true" inputId="icon"></p-calendar>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-field p-col-12 p-md-4">
+                                <label for="icon">Teslim Tarihi</label>
+                                <br>
+                                <p-calendar formControlName="returnDate" [showIcon]="true" inputId="icon"></p-calendar>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="carClasses">Aracı teslim alacağınız şehir</label>
+                        <select class="form-control" formControlName="rentCity" id="rentCity">
+                            <option *ngFor="let city of cities; let i = index" [value]="city.id">
+                                {{city.cityName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="carClasses">Aracı teslim edeceğiniz şehir</label>
+                        <select class="form-control" formControlName="returnedCity" id="returnedCity">
+                            <option *ngFor="let city of cities; let i = index" [value]="city.id">
+                                {{city.cityName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Mail adresinizi giriniz" formControlName="mailAddress"
+                            class="form-control" id="mail" name="mail" />
+                        <div *ngIf="rentalForm.get('mailAddress').hasError('email')" class="alert alert-danger">
+                            Lütfen geçerli bir mail adresi giriniz.
+                        </div>
+                        <div *ngIf="rentalForm.get('mailAddress').errors?.required && (rentalForm.get('mailAddress').dirty || rentalForm.get('mailAddress').touched) "
+                            class="alert alert-danger">
+                            Mail kısmı zorunludur.
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div class="mb-3">
-        <input type="text" placeholder="Konu başlığı giriniz" formControlName="subject" class="form-control" id="subject" name="subject"/>
-        <div *ngIf="rentalForm.get('subject').errors?.maxlength" class="alert alert-danger">
-            Konu en fazla 50 karakter olmalıdır.
-        </div>       
+    <!-- Car Select Tab-->
+    <div class="tab-pane fade" id="nav-car" role="tabpanel" aria-labelledby="nav-car-tab">
+        <div class="card">
+            <p-dataView #dv [value]="cars" [paginator]="true" [rows]="5" filterBy="name" [sortField]="sortField"
+                [sortOrder]="sortOrder" layout="list">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between">
+                        <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+                            (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                        <span class="p-input-icon-left mb-2 md:mb-0">
+                            <i class="pi pi-search"></i>
+                            <input type="search" pInputText placeholder="Search by Name"
+                                (input)="dv.filter($event.target.value)">
+                        </span>
+                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                    </div>
+                </ng-template>
+                <ng-template let-car pTemplate="listItem">
+                    <div class="col-12">
+                        <div class="product-list-item">
+                            <img [src]="'https://img-s2.onedio.com/id-61e58ba725a54cba5579e0d7/rev-0/w-620/f-jpg/s-401ee054a610302f9664775df2bb8f2295a9d216.jpg'"
+                                [alt]="car.brand" />
+                            <div class="product-list-detail">
+                                <div class="product-name">{{car.brand}}</div>
+                                <div class="product-description">{{car.description}}</div>
+                                <p-rating [ngModel]="car.findexScore" [readonly]="true" [cancel]="false"></p-rating>
+                                <i class="pi pi-tag product-category-icon"></i><span
+                                    class="product-category">{{car.brand}}</span>
+                            </div>
+                            <div class="product-list-action">
+                                <span class="product-price">${{car.dailyPrice}}</span>
+                                <p-button icon="pi pi-shopping-cart" label="Add to Cart"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+    <!-- Customer Tab-->
+    <div class="tab-pane fade" id="nav-customer" role="tabpanel" aria-labelledby="nav-customer-tab">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="customerAddForm" (ngSubmit)="addCustomer()" class="form-group">
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Mail adresinizi giriniz" formControlName="email"
+                            class="form-control" id="email" name="email" />
+                        <div *ngIf="customerAddForm.get('email').hasError('email')" class="alert alert-danger">
+                            Lütfen geçerli bir mail adresi giriniz.
+                        </div>
+                        <div *ngIf="customerAddForm.get('email').errors?.required && (customerAddForm.get('email').dirty || customerAddForm.get('email').touched) "
+                            class="alert alert-danger">
+                            Mail kısmı zorunludur.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Tam adınızı giriniz" formControlName="firstName"
+                            class="form-control" id="firstName" name="firstName" />
+                        <div *ngIf="customerAddForm.get('firstName').errors?.maxlength" class="alert alert-danger">
+                            Konu en fazla 50 karakter olmalıdır.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Soyadınızı giriniz" formControlName="lastName"
+                            class="form-control" id="lastName" name="lastName" />
+                        <div *ngIf="customerAddForm.get('lastName').errors?.maxlength" class="alert alert-danger">
+                            Konu en fazla 50 karakter olmalıdır.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Soyadınızı giriniz" formControlName="password"
+                            class="form-control" id="password" name="password" />
+                        <div *ngIf="customerAddForm.get('password').errors?.maxlength" class="alert alert-danger">
+                            Konu en fazla 50 karakter olmalıdır.
+                        </div>
+                    </div>
+
+                    <div class="mb3">
+                        <div class="p-field p-col-12 p-md-4">
+                            <label for="icon">Doğum Tarihi</label>
+                            <br>
+                            <p-calendar formControlName="birthDate" [showIcon]="true" inputId="icon"></p-calendar>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Extras Tab-->
+    <div class="tab-pane fade" id="nav-extras" role="tabpanel" aria-labelledby="nav-extras-tab">
 
     </div>
+    <!-- Payment Tab-->
+    <div class="tab-pane fade" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
+        <div class="card">
+            <div class="card-body">
+                <form #paymentForm="ngForm" (ngSubmit)="makePayment(paymentForm)">
 
-    <div class="mb-3">
-        <input type="text" placeholder="Mail adresinizi giriniz" formControlName="mailAddress" class="form-control" id="mail" name="mail"/>
-        <div *ngIf="rentalForm.get('mailAddress').hasError('email')" class="alert alert-danger">
-            Lütfen geçerli bir mail adresi giriniz.
-        </div>
-        <div *ngIf="rentalForm.get('mailAddress').errors?.required && (rentalForm.get('mailAddress').dirty || rentalForm.get('mailAddress').touched) " class="alert alert-danger">
-            Mail kısmı zorunludur.
-        </div>
-    </div>    
+                    <div class="mb-3">
+                        <input type="text" placeholder="Kredi kart üzerindeki ad soyad" #cardHolder="ngModel"
+                            [(ngModel)]="createPaymentModel.createCreditCardInfoRequest.cardHolder" class="form-control"
+                            id="cardHolder" name="cardHolder" />
+                    </div>
 
-    <div class="mb-3">
-        <input type="text" placeholder="Ad soyadınızı giriniz" formControlName="nameSurname" class="form-control" id="nameSurname" name="nameSurname" />
-        <div *ngIf="rentalForm.get('nameSurname').errors?.maxlength" class="alert alert-danger">
-            Ad soyad en fazla 30 karakter olmalıdır.
+                    <div class="mb-3">
+                        <input type="number" placeholder="Kart üzerindeki 16 haneyi giriniz" #creditCard="ngModel"
+                            [(ngModel)]="createPaymentModel.createCreditCardInfoRequest.creditCard" class="form-control"
+                            id="creditCard" name="creditCard" required />
+                        <div *ngIf="creditCard.invalid && creditCard.dirty" class="alert alert-danger">
+                            Mail kısmı zorunludur.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" placeholder="Geçerlilik tarihini giriniz" #validDate="ngModel"
+                            [(ngModel)]="createPaymentModel.createCreditCardInfoRequest.validDate" class="form-control"
+                            id="validDate" name="validDate" />
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="number" placeholder="Kartın arkasındaki 3 haneli CVC rakamlarını giriniz"
+                            #cVC="ngModel" [(ngModel)]="createPaymentModel.createCreditCardInfoRequest.cVC"
+                            class="form-control" id="cVC" name="cVC" required />
+                        <div *ngIf="cVC.invalid && cVC.dirty" class="alert alert-danger">
+                            CVC kısmı zorunludur.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" [disabled]="paymentForm.invalid"> Ödeme Yap</button>
+
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="mb-3">
-        <input type="text" placeholder="Mesaj içeriğini giriniz" formControlName="messageText" class="form-control" id="messageText" name="messageText"/>
-        <div *ngIf="rentalForm.get('messageText').hasError('maxlength')" class="alert alert-danger">
-            Yazdığınız mesaj en fazla 1000 karakter olabilir.
-        </div>
-        <div *ngIf="rentalForm.get('messageText').errors?.required && (rentalForm.get('messageText').dirty || rentalForm.get('messageText').touched) " class="alert alert-danger">
-            Mesaj kısmı zorunludur.
-        </div>
+
+<!-- <div class="mb-3">
+    <input type="text" placeholder="Ad soyadınızı giriniz" formControlName="nameSurname"
+        class="form-control" id="nameSurname" name="nameSurname" />
+    <div *ngIf="rentalForm.get('nameSurname').errors?.maxlength" class="alert alert-danger">
+        Ad soyad en fazla 30 karakter olmalıdır.
     </div>
+</div>
 
-    <button type="submit" class="btn btn-success" [disabled]="rentalForm.invalid"> Mesajı Gönder</button>
+<div class="mb-3">
+    <input type="text" placeholder="Mesaj içeriğini giriniz" formControlName="messageText"
+        class="form-control" id="messageText" name="messageText" />
+    <div *ngIf="rentalForm.get('messageText').hasError('maxlength')" class="alert alert-danger">
+        Yazdığınız mesaj en fazla 1000 karakter olabilir.
+    </div>
+    <div *ngIf="rentalForm.get('messageText').errors?.required && (rentalForm.get('messageText').dirty || rentalForm.get('messageText').touched) "
+        class="alert alert-danger">
+        Mesaj kısmı zorunludur.
+    </div>
+</div>
 
-</form>
+<button type="submit" class="btn btn-success" [disabled]="rentalForm.invalid"> Mesajı Gönder</button> -->

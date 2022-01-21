@@ -32,10 +32,10 @@ export class CardetailComponent implements OnInit {
         this.car = response.data;     
       },
       error =>{
-
+        
       },
       () =>{
-
+        
       }
     )
   }

@@ -31,21 +31,21 @@
     </div>
 
     <label for="brands">Brand</label>
-    <select formControlName="brandId" id="brandId">
+    <select class="form-control" formControlName="brandId" id="brandId">
         <option *ngFor="let brand of brands; let i = index" [value]="brands[i].id">
             {{brands[i].name}}
         </option>
     </select>
 
     <label for="colors">Color</label>
-    <select formControlName="colorId" id="colorId">
+    <select class="form-control" formControlName="colorId" id="colorId">
         <option *ngFor="let color of colors; let i = index" [value]="colors[i].id">
             {{colors[i].name}}
         </option>
     </select>
 
     <label for="carClasses">Car Class</label>
-    <select formControlName="carClassId" id="carClassId">
+    <select class="form-control" formControlName="carClassId" id="carClassId">
         <option *ngFor="let carClass of carClasses; let i = index" [value]="carClasses[i].id">
             {{carClasses[i].classType}}
         </option>
