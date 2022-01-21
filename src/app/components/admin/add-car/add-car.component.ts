@@ -59,7 +59,6 @@ export class AddCarComponent implements OnInit {
       // this.model.brandId = parseInt(this.model.brandId.toString() )
       // this.model.colorId = parseInt(this.model.colorId.toString() )
       // this.model.carClassId = parseInt(this.model.carClassId.toString() )
-    console.log(this.model)
       this.carService.addCar(this.model).subscribe(
         (data) => {
           alertify.success(data.message);

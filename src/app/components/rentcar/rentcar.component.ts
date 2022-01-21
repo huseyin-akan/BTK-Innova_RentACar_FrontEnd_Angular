@@ -1,3 +1,4 @@
+import { UserListModel } from './../../models/listModels/userListModel';
 import { CityListModel } from './../../models/listModels/cityListModel';
 import { CityService } from './../../services/city.service';
 import { CreatePaymentModel } from './../../models/create-requests/createPaymentModel';
@@ -9,6 +10,8 @@ import { CarListModel } from 'src/app/models/carListModel';
 import { CreateIndCustomerModel } from 'src/app/models/create-requests/createIndCustomerModel';
 import { CreateRentalModel } from 'src/app/models/create-requests/createRentalModel';
 import { RentalService } from 'src/app/services/rental.service';
+import { UserService } from 'src/app/services/user.service';
+import { ThrowStmt } from '@angular/compiler';
 declare let alertify:any;
 //for Jquery
 declare var $:any;
@@ -27,6 +30,10 @@ export class RentcarComponent implements OnInit {
   createCustomerModel : CreateIndCustomerModel;
   createPaymentModel : CreatePaymentModel = new CreatePaymentModel();
 
+  user :UserListModel = new UserListModel();
+  customerFound :boolean = false;
+  selectedCar = 0;
+
   cities : CityListModel[] = [];
 
   rentDate : Date;
@@ -34,6 +41,7 @@ export class RentcarComponent implements OnInit {
 
   cars :CarListModel[] = [];
   dataLoaded : boolean = false;
+
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
@@ -43,7 +51,8 @@ export class RentcarComponent implements OnInit {
     private rentalService : RentalService,
     private primengConfig: PrimeNGConfig,
     private carService : CarService,
-    private cityService : CityService
+    private cityService : CityService,
+    private userService : UserService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +67,12 @@ export class RentcarComponent implements OnInit {
   ];
 
   this.primengConfig.ripple = true;
+
+  $('#mailAdress').blur(
+    () =>{
+      this.checkForCustomerByMail( $('#mailAdress').val() )
+    }
+  );
   }
 
   getCars(){
@@ -66,7 +81,6 @@ export class RentcarComponent implements OnInit {
         this.dataLoaded = false;
         this.cars = response.data;
         this.dataLoaded = true;
-        console.log(response);
       }
     )
   }
@@ -82,7 +96,7 @@ export class RentcarComponent implements OnInit {
         this.sortOrder = 1;
         this.sortField = value;
     }
-}
+  }
   
   createRentalForm(){
     this.rentalForm = this.formBuilder.group({
@@ -105,11 +119,6 @@ export class RentcarComponent implements OnInit {
     });
   }
 
-  denemeler(){
-    this.rentalModel = Object.assign({}, this.rentalForm.value)
-    console.log(this.rentalForm.get('subject').hasError('maxlength'));
-  }
-
   rentCar() {
     if (this.rentalForm.valid) {
       this.rentalModel = Object.assign({}, this.rentalForm.value)
@@ -119,14 +128,23 @@ export class RentcarComponent implements OnInit {
       //     alertify.info(data.message);
       //   },
       //   (err) => {
-      //     alertify.error('kayıt başarılı olmadı moruk ' + err.error);
+      //     alertify.error('kayıt başarılı olmadı  ' + err.error);
       //   }
       // );
     }
   }
 
-  addCustomer(){
-
+  addCustomer( ){
+    this.createCustomerModel = Object.assign({}, this.customerAddForm.value)
+    
+    this.userService.addUser(this.createCustomerModel).subscribe(
+      response => {
+        alertify.success(response.message)
+      },
+      err =>{
+        alertify.error(err.error.message)
+      }
+    );
   }
 
   makePayment(form : NgForm){
@@ -139,6 +157,24 @@ export class RentcarComponent implements OnInit {
           this.cities = response.data;          
         }
       );
+  }
+
+  checkForCustomerByMail(mail : string){  
+    this.userService.getUserByEmail(mail).subscribe(
+      response => {
+        this.user = response.data;
+        this.customerFound = true;
+      },
+      err => {
+        alertify.error(err.error.message)
+        this.customerFound = false;
+      }
+    )
+  }
+
+  selectCar(id:number){
+    this.selectedCar = id;
+    alertify.success(id + "nolu araba seçildi.");
   }
 
 }

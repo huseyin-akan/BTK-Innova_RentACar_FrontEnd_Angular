@@ -57,13 +57,19 @@
 
                     <div class="mb-3">
                         <input type="text" placeholder="Mail adresinizi giriniz" formControlName="mailAddress"
-                            class="form-control" id="mail" name="mail" />
+                            class="form-control" id="mailAdress" name="mailAdress" />
                         <div *ngIf="rentalForm.get('mailAddress').hasError('email')" class="alert alert-danger">
                             Lütfen geçerli bir mail adresi giriniz.
                         </div>
                         <div *ngIf="rentalForm.get('mailAddress').errors?.required && (rentalForm.get('mailAddress').dirty || rentalForm.get('mailAddress').touched) "
                             class="alert alert-danger">
                             Mail kısmı zorunludur.
+                        </div>
+                        <div *ngIf="customerFound" id="mail-logged-message" class="alert alert-success">
+                            Sayın {{user.firstName}} hoş geldiniz. Müşteri kayıt yapmanız gerekmemektedir.
+                        </div>
+                        <div *ngIf="customerFound == false && rentalForm.get('mailAddress').dirty" id="mail-logged-message" class="alert alert-danger">
+                            Sayın müşterimiz. Bu maile kayıtlı bir hesap bulunmamaktadır. Müşteri kayıt sayfasından kayıt yapınız.
                         </div>
                     </div>
                 </form>
@@ -101,7 +107,7 @@
                             </div>
                             <div class="product-list-action">
                                 <span class="product-price">${{car.dailyPrice}}</span>
-                                <p-button icon="pi pi-shopping-cart" label="Add to Cart"></p-button>
+                                <p-button icon="pi pi-shopping-cart" label="Arabayı Seç" (click)="selectCar(car.id)"></p-button>
                             </div>
                         </div>
                     </div>
@@ -113,7 +119,7 @@
     <div class="tab-pane fade" id="nav-customer" role="tabpanel" aria-labelledby="nav-customer-tab">
         <div class="card">
             <div class="card-body">
-                <form [formGroup]="customerAddForm" (ngSubmit)="addCustomer()" class="form-group">
+                <form [formGroup]="customerAddForm" class="form-group">
 
                     <div class="mb-3">
                         <input type="text" placeholder="Mail adresinizi giriniz" formControlName="email"
@@ -128,35 +134,33 @@
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" placeholder="Tam adınızı giriniz" formControlName="firstName"
+                        <input type="text" placeholder="Adınızı giriniz" formControlName="firstName"
                             class="form-control" id="firstName" name="firstName" />
-                        <div *ngIf="customerAddForm.get('firstName').errors?.maxlength" class="alert alert-danger">
-                            Konu en fazla 50 karakter olmalıdır.
-                        </div>
                     </div>
 
                     <div class="mb-3">
                         <input type="text" placeholder="Soyadınızı giriniz" formControlName="lastName"
                             class="form-control" id="lastName" name="lastName" />
-                        <div *ngIf="customerAddForm.get('lastName').errors?.maxlength" class="alert alert-danger">
-                            Konu en fazla 50 karakter olmalıdır.
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" placeholder="Şifrenizi giriniz" formControlName="password"
+                            class="form-control" id="password" name="password" />
+                        <div *ngIf="customerAddForm.get('password').errors?.maxlength" class="alert alert-danger">
+                            Şifre en fazla 50 karakter olmalıdır.
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" placeholder="Soyadınızı giriniz" formControlName="password"
-                            class="form-control" id="password" name="password" />
-                        <div *ngIf="customerAddForm.get('password').errors?.maxlength" class="alert alert-danger">
-                            Konu en fazla 50 karakter olmalıdır.
-                        </div>
-                    </div>
-
-                    <div class="mb3">
                         <div class="p-field p-col-12 p-md-4">
                             <label for="icon">Doğum Tarihi</label>
                             <br>
                             <p-calendar formControlName="birthDate" [showIcon]="true" inputId="icon"></p-calendar>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" (click)="addCustomer()"> Kaydol</button>
                     </div>
                 </form>
             </div>
