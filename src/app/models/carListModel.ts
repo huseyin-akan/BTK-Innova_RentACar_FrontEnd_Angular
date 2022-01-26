@@ -5,6 +5,8 @@ export interface CarListModel{
     kilometer : number
     dailyPrice : number
     brand : string
+    modelName: string
+    imageUrl : string
     color : string
     findexScore : number
     minAge : number

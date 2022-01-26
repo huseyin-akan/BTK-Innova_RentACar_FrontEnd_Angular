@@ -1,7 +1,7 @@
 export class CreateCreditCardInfoModel{
     creditCard : string;
     validDate : string;
-    cVC : string;
+    cvc : string;
     cardHolder : string;
     customerId : number;
 }

@@ -1,9 +1,7 @@
 export class RentalModel{
-    rentalDate: Date;
+    id : number;
+    rentDate: Date;
     returnDate : Date;
-    rentedKiloMeter : number;
-    rentedCityId : number;
-    returnedCityId:number;
-    customerId : number;
-    carId: number;
+    rentedKilometer : number;
+    returnedKilometer : number;
 }

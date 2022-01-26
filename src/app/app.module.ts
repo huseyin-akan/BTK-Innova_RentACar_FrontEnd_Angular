@@ -26,6 +26,9 @@ import {CalendarModule} from 'primeng/calendar';
 import { AddCarComponent } from './components/admin/add-car/add-car.component';
 import { AddColorComponent } from './components/admin/add-color/add-color.component';
 import { AddBrandComponent } from './components/admin/add-brand/add-brand.component';
+import {CheckboxModule} from 'primeng/checkbox';
+import { CreditCardFormatPipe } from './pipes/credit-card-format.pipe';
+import { CardDateFormatPipe } from './pipes/card-date-format.pipe';
 
 
 @NgModule({
@@ -40,7 +43,9 @@ import { AddBrandComponent } from './components/admin/add-brand/add-brand.compon
     HomeComponent,
     AddCarComponent,
     AddColorComponent,
-    AddBrandComponent
+    AddBrandComponent,
+    CreditCardFormatPipe,
+    CardDateFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ import { AddBrandComponent } from './components/admin/add-brand/add-brand.compon
     PanelModule,
     InputTextModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    CheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

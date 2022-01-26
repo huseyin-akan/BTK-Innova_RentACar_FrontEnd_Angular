@@ -10,7 +10,7 @@ export class CreatePaymentModel{
         this.paymentDate = new Date();
         this.saveRequested = false;
         this.rentalId = 0;
-        this.code = "";
+        this.code = null;
         this.createCreditCardInfoRequest = new CreateCreditCardInfoModel();
     }
 }
