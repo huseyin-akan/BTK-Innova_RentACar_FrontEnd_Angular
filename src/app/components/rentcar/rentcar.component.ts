@@ -15,6 +15,7 @@ import { CreateRentalModel } from 'src/app/models/create-requests/createRentalMo
 import { RentalService } from 'src/app/services/rental.service';
 import { UserService } from 'src/app/services/user.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import { ActivatedRoute } from '@angular/router';
 declare let alertify:any;
 //for Jquery
 declare var $:any;
@@ -43,16 +44,20 @@ export class RentcarComponent implements OnInit {
   additionalServices : AdditionalServiceListModel[] = [];
   selectedAdditionalServices : AdditionalServiceListModel[] = [];
 
-  rentDate : Date;
-  returnDate : Date;
+  rentDate : Date = new Date();
+  returnDate : Date = new Date();
+  dayForRental : number =0;
   minDateValue : Date = new Date();
 
   cars :CarListModel[] = [];
+  selectedCarPrice = 0;
+  selectedASPrice = 0;
   totalSum : number = 0;
   dataLoaded : boolean = false;
   paymentIsMade: boolean = false;
 
   sortOptions: SelectItem[];
+  sortOptions2: SelectItem[];
   sortOrder: number;
   sortField: string;
 
@@ -66,7 +71,8 @@ export class RentcarComponent implements OnInit {
     private cityService : CityService,
     private userService : UserService,
     private additionalServiceService : AdditionalServiceService,
-    private paymentService : PaymentService
+    private paymentService : PaymentService,
+    private activatedRoute : ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -75,12 +81,16 @@ export class RentcarComponent implements OnInit {
     this.creaeteCustomerAddForm();
     this.getCars();
     this.getAdditionalServices();
-    //this.totalSum = (this.cars.find(x=>x.id = this.selectedCar).dailyPrice + this.getTotalSumOfSelectAS() ) * 2;
 
     this.sortOptions = [
       {label: 'Price High to Low', value: '!dailyPrice'},
       {label: 'Price Low to High', value: 'dailyPrice'}
   ];
+
+  this.sortOptions2 = [
+    {label: 'Price High to Low', value: '!price'},
+    {label: 'Price Low to High', value: 'price'}
+];
 
   this.primengConfig.ripple = true;
 
@@ -92,6 +102,15 @@ export class RentcarComponent implements OnInit {
       this.checkForCustomerByMail( $('#mailAdress').val() )
     }
   );
+  
+  //detaylar sayfasından gelirsek id'miz olmalı öyleyse seçim yapmalıyız.
+  this.activatedRoute.paramMap.subscribe(
+    params => { 
+      this.selectedCar = Number(params.get('id'))
+      if(this.selectedCar!= 0){
+        this.selectCar(this.selectedCar);
+      }      
+    })
 
   }
 
@@ -99,8 +118,7 @@ export class RentcarComponent implements OnInit {
     let result = 0;
     this.selectedAdditionalServices.map( x => result += x.price);
     return result;
-  }
-    
+  }    
 
   deneme(){
     console.log(this.additionalServices)
@@ -109,10 +127,23 @@ export class RentcarComponent implements OnInit {
 
   onRentDateSelect(){
     this.rentDate = this.rentalForm.controls['rentDate'].value;
+    let dayDiff = (this.returnDate.getTime() - this.rentDate.getTime() )
+    if(dayDiff == 0){
+      this.dayForRental = 1;
+    }else{
+      this.dayForRental= Math.ceil( dayDiff / (1000 * 60 * 60 * 24)); 
+    }
   }
 
   onReturnDateSelect(){
     this.returnDate = this.rentalForm.controls['returnDate'].value;
+    let dayDiff = (this.returnDate.getTime() - this.rentDate.getTime() )
+    if(dayDiff == 0){
+      this.dayForRental = 1;
+    }else{
+      this.dayForRental= Math.ceil( dayDiff / (1000 * 60 * 60 * 24)); 
+    }
+      
   }
 
   getCars(){
@@ -245,15 +276,23 @@ export class RentcarComponent implements OnInit {
 
   selectCar(id:number){
     this.selectedCar = id;
-    $('#ypt_selected_car').text( this.cars.find( x => x.id == id).brand );
+    let selectedCarObj = this.cars.find( x => x.id == id);
+    $('#ypt_selected_car').text( selectedCarObj.brand + " - " + selectedCarObj.modelName );
+    this.selectedCarPrice = selectedCarObj.dailyPrice * this.dayForRental;
+    this.totalSum = this.selectedCarPrice + this.selectedASPrice;
   }
 
   addAS(id:number){
-    this.selectedAdditionalServices.push(this.additionalServices.find(x => x.id == id));
+    let selectedItem = this.additionalServices.find(x => x.id == id);
+    this.selectedAdditionalServices.push(selectedItem);
+    this.selectedASPrice = this.getTotalSumOfSelectAS() * this.dayForRental;
+    this.totalSum = this.selectedCarPrice + this.selectedASPrice;
   }
 
   removeAS(id: number){
     this.selectedAdditionalServices = this.selectedAdditionalServices.filter( x => x.id != id);
+    this.selectedASPrice = this.getTotalSumOfSelectAS() * this.dayForRental;
+    this.totalSum = this.selectedCarPrice + this.selectedASPrice;
   }
 
   checkIfItemAdded(id :number){

@@ -19,11 +19,11 @@
                       <div class="product-name">{{car.brand}}</div>
                       <div class="product-description">{{car.description}}</div>
                       <p-rating [ngModel]="car.findexScore" [readonly]="true" [cancel]="false"></p-rating>
-                      <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{car.modelName}}</span>
+                      <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{car.modelName}} - {{car.modelYear}}</span>
                   </div>
                   <div class="product-list-action">
-                      <span class="product-price">${{car.dailyPrice}}</span>
-                      <p-button icon="pi pi-shopping-cart" routerLink="/cardetails/{{car.id}}" label="Detayını Gör"></p-button>
+                      <span class="product-price">₺{{car.dailyPrice}}</span>
+                      <p-button icon="pi pi-search" routerLink="/cardetails/{{car.id}}" label="Detayını Gör"></p-button>
                   </div>
               </div>
           </div>
@@ -39,7 +39,7 @@
                   </div>
                   <div class="product-grid-item-content">
                     <img [src]="car.imageUrl" [alt]="car.brand"/>
-                      <div class="product-name">{{car.brand}}</div>
+                      <div class="product-name">{{car.modelName}} - {{car.modelYear}}</div>
                       <div class="product-description">{{car.description}}</div>
                       <p-rating [ngModel]="car.findexScore" [readonly]="true" [cancel]="false"></p-rating>
                   </div>

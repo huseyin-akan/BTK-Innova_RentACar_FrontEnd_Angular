@@ -11,15 +11,18 @@ import { AddBrandComponent } from './components/admin/add-brand/add-brand.compon
 const routes: Routes = [
   {path: "cardetails/:id", component : CardetailComponent},
   {path: "rentcar", component : RentcarComponent},
+  {path: "rentcar/:id", component : RentcarComponent},
   {path: "allrentablecars", component : CarComponent},
   {path: "home", component : HomeComponent},
   {path: "admin/addcolor", component : AddColorComponent},
   {path: "admin/addbrand", component : AddBrandComponent},
   {path: "admin/addcar", component : AddCarComponent},
-  {path: "rentcar/renting", component : AddCarComponent},
   {path: "rentcar/addcar", component : AddCarComponent},
   {path: "admin/addcar", component : AddCarComponent},
   {path: "admin/addcar", component : AddCarComponent},
+
+    //boş veride ana sayfaya gönder.
+    {path:'' , redirectTo: 'home', pathMatch : "full"},
 ];
 
 

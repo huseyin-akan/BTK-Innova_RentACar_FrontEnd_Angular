@@ -97,7 +97,7 @@
 
 .card_card_holder{
   position: absolute;
-  bottom:40%;
+  bottom:45%;
   left: 60%;
   color : white;
   font-size: x-large;
@@ -105,7 +105,7 @@
 
 .card_card_number{
   position: absolute;
-  bottom:32%;
+  bottom:38%;
   left: 60%;
   color : white;
   opacity: 0.9;
@@ -123,6 +123,31 @@
 
 .cb_savecard{
     margin-left:1rem;
+}
+
+.ypt_total_sum{
+  background-color: yellowgreen;
+  color:black;
+  font-size: 20pt;
+  font-weight: bold;
+  text-align: center;
+}
+
+.rent-tab-label{
+  font-size: 1.2rem;
+  color: green;
+}
+
+.yapilan-secimler-ekrani tr td:nth-child(2n-1){
+  background-color: #596275;
+  color: white;
+  font-weight: bold;
+}
+
+.yapilan-secimler-ekrani tr td:nth-child(2n){
+  background-color: #9AECDB;
+  color: black;
+  font-weight: 500;
 }
 
 .receipt-content .logo a:hover {
