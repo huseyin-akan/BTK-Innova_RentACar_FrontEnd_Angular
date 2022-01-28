@@ -159,7 +159,6 @@ export class RentcarComponent implements OnInit {
   getAdditionalServices(){
     this.additionalServiceService.getAdditionalServices().subscribe(
       response => {
-        console.log(response.data)
         this.additionalServices = response.data;
       }
     );
@@ -210,8 +209,6 @@ export class RentcarComponent implements OnInit {
       console.log(this.rentalModel)
       this.rentalService.addRental(this.rentalModel).subscribe(
         (response) => {
-          alertify.success(response.message);
-          console.log(response.data);
           this.createPaymentModel.rentalId = response.data.id;
           this.makePayment();
         },
@@ -240,12 +237,11 @@ export class RentcarComponent implements OnInit {
     this.createPaymentModel.saveRequested = this.saveCardChecked;
     this.createPaymentModel.createCreditCardInfoRequest.customerId = this.rentalModel.customerId;
 
-    console.log(this.createPaymentModel);
     this.paymentService.makePayment(this.createPaymentModel).subscribe(
       response => {
         this.invoiceListModel = response.data;
         this.paymentIsMade = true;
-        alertify.success(response.message)
+        alertify.success("Ödeme Başarılı oldu.")
       },
       err => {
         alertify.error(err.error.message)

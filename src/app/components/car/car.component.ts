@@ -26,8 +26,8 @@ export class CarComponent implements OnInit {
     this.getCars();
 
     this.sortOptions = [
-      {label: 'Price High to Low', value: '!price'},
-      {label: 'Price Low to High', value: 'price'}
+      {label: 'Price High to Low', value: '!dailyPrice'},
+      {label: 'Price Low to High', value: 'dailyPrice'}
   ];
 
   this.primengConfig.ripple = true;
