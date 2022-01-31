@@ -48,6 +48,7 @@ export class RentcarComponent implements OnInit {
   returnDate : Date = new Date();
   dayForRental : number =0;
   minDateValue : Date = new Date();
+  wrongDateSelection: boolean = false;
 
   cars :CarListModel[] = [];
   selectedCarPrice = 0;
@@ -143,6 +144,12 @@ export class RentcarComponent implements OnInit {
     }else{
       this.dayForRental= Math.ceil( dayDiff / (1000 * 60 * 60 * 24)); 
     }
+
+    if(dayDiff<0){
+      this.wrongDateSelection = true;
+    }else{
+      this.wrongDateSelection = false;
+    }
       
   }
 
@@ -190,10 +197,10 @@ export class RentcarComponent implements OnInit {
   creaeteCustomerAddForm(){
     this.customerAddForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      firstName: ['', [Validators.maxLength(30)]],
-      lastName: ['', [Validators.required, Validators.maxLength(1000)]],
-      password: ['', [Validators.required, Validators.maxLength(1000)]],
-      birthDate: ['', [Validators.required, Validators.maxLength(1000)]],
+      firstName: ['', [Validators.required, Validators.maxLength(30)]],
+      lastName: ['', [Validators.required, Validators.maxLength(30)]],
+      password: ['', [Validators.required, Validators.maxLength(30)]],
+      birthDate: ['', [Validators.required, Validators.maxLength(30)]],
     });
   }
 

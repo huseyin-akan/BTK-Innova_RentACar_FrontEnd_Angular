@@ -50,6 +50,11 @@
                                     </div>
                                 </div>
 
+                                <div *ngIf="wrongDateSelection"
+                                        class="alert alert-danger">
+                                        Tarih seçiminiz geçersiz. Lütfen geçerli tarih girişi yapınız.
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="rent-tab-label" for="carClasses">Aracı teslim alacağınız şehir</label>
                                     <select class="form-control" formControlName="rentedCityId" id="rentedCityId"
@@ -164,11 +169,19 @@
                                 <div class="mb-3">
                                     <input type="text" placeholder="Adınızı giriniz" formControlName="firstName"
                                         class="form-control" id="firstName" name="firstName" />
+                                        <div *ngIf="customerAddForm.get('firstName').errors?.required && (customerAddForm.get('firstName').dirty || customerAddForm.get('firstName').touched) "
+                                        class="alert alert-danger">
+                                        Ad kısmı zorunludur.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <input type="text" placeholder="Soyadınızı giriniz" formControlName="lastName"
                                         class="form-control" id="lastName" name="lastName" />
+                                        <div *ngIf="customerAddForm.get('lastName').errors?.required && (customerAddForm.get('lastName').dirty || customerAddForm.get('lastName').touched) "
+                                        class="alert alert-danger">
+                                        Soyadı kısmı zorunludur.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
@@ -178,6 +191,10 @@
                                         class="alert alert-danger">
                                         Şifre en fazla 50 karakter olmalıdır.
                                     </div>
+                                    <div *ngIf="customerAddForm.get('password').errors?.required && (customerAddForm.get('password').dirty || customerAddForm.get('password').touched) "
+                                        class="alert alert-danger">
+                                        Şifre kısmı zorunludur.
+                                    </div>                                    
                                 </div>
 
                                 <div class="mb-3">
@@ -367,7 +384,7 @@
             </table>
 
             <button pButton label="Kiralamayı Tamamla" icon="pi pi-credit-card" type="button" class="p-button-success"
-                [disabled]="paymentForm.invalid" (click)="rentCar()"></button>
+                [disabled]="wrongDateSelection || paymentForm.invalid" (click)="rentCar()"></button>
 
         </div>
     </div>
