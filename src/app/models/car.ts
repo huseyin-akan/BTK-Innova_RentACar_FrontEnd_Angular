@@ -7,6 +7,5 @@ export class Car{
     brand : string
     color : string
     findexScore : number
-    minAge : number
     carClass : string
 }
